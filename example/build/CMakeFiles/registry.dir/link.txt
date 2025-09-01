@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -rdynamic CMakeFiles/registry.dir/registry.cc.o CMakeFiles/registry.dir/echo.pb.cc.o -o registry  -letcd-cpp-api -lcpprest -lbrpc -lleveldb -lgflags -lssl -lcrypto -lprotobuf -lfmt 

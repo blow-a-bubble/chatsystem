@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -rdynamic CMakeFiles/es_test.dir/es_test.cc.o -o es_test  -ljsoncpp -lspdlog -lfmt -lgflags -lelasticlient -lcpr 

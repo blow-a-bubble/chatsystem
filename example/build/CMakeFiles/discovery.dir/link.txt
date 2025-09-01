@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -rdynamic CMakeFiles/discovery.dir/discovery.cc.o CMakeFiles/discovery.dir/echo.pb.cc.o -o discovery  -letcd-cpp-api -lcpprest -lbrpc -lleveldb -lgflags -lssl -lcrypto -lprotobuf -lfmt 
