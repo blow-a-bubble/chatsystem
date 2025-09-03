@@ -35,11 +35,10 @@ class ESIndex
 {
 public:
     // host 必须要/结尾 eg: "http://localhost:9200/"
-    ESIndex(const std::string& host, std::string index_name, std::string index_type = "_doc")
-    :_index_name(index_name), _index_type(index_type)
+    ESIndex(const std::shared_ptr<elasticlient::Client> &client, 
+            std::string index_name, std::string index_type = "_doc")
+    :_index_name(index_name), _index_type(index_type), _client(client)
     {
-        std::vector<std::string> hostlist = {host};
-        _client = std::make_shared<elasticlient::Client>(hostlist);
         Json::Value settings;
         Json::Value analysis;
         Json::Value analyzer;
@@ -51,7 +50,7 @@ public:
         _req_body["settings"] = settings;
         _mappings["dynamic"] = true;
     }
-    ESIndex& append(const std::string& field_name, const std::string& type, const std::string& analyzer, bool enabled = true)
+    ESIndex &append(const std::string& field_name, const std::string& type, const std::string& analyzer, bool enabled = true)
     {
         Json::Value field;
         if(!type.empty()) field["type"] = type;
@@ -100,11 +99,133 @@ private:
 // es插入数据
 class ESInsert
 {
-
+public:
+    ESInsert(const std::shared_ptr<elasticlient::Client> &client, 
+            std::string index_name, std::string index_type = "_doc")
+    :_index_name(index_name), _index_type(index_type), _client(client)
+    {}
+    ESInsert &append(const std::string &key, const std::string &value)
+    {
+        _req_body[key] = value;
+    }
+    bool insert(const std::string &id)
+    {
+        std::string req;
+        bool ret = serialize(_req_body, req);
+        if(ret == false)
+        {
+            ERROR__LOG("增加数据请求进行序列化失败");
+            return false;
+        }
+        DEBUG__LOG("body: {}", req);
+        try
+        {
+            auto resp = _client->index(_index_name, _index_type, id, req);
+            if(resp.status_code < 200 || resp.status_code >= 300)
+            {
+                ERROR__LOG("增加数据失败, 返回状态码: {}", resp.status_code);
+                return false;
+            }
+        }
+        catch(const std::exception& e)
+        {
+            ERROR__LOG("增加数据es索引失败: {}", e.what());
+            return false;
+        }
+        return true;
+    }
+private:
+    std::shared_ptr<elasticlient::Client> _client;
+    std::string _index_name;
+    std::string _index_type;
+    Json::Value _req_body;
 };
 
+// es修改数据: 修改和插入一模一样直接插入覆盖即可
+class ESModify
+{
+public:
+    ESModify(const std::shared_ptr<elasticlient::Client> &client,
+            std::string index_name, std::string index_type = "_doc")
+    :_index_name(index_name), _index_type(index_type), _client(client)
+    {}
+    ESModify &append(const std::string &key, const std::string &value)
+    {
+        _req_body[key] = value;
+    }
+    bool insert(const std::string &id)
+    {
+        std::string req;
+        bool ret = serialize(_req_body, req);
+        if(ret == false)
+        {
+            ERROR__LOG("修改数据请求进行序列化失败");
+            return false;
+        }
+        DEBUG__LOG("body: {}", req);
+        try
+        {
+            auto resp = _client->index(_index_name, _index_type, id, req);
+            if(resp.status_code < 200 || resp.status_code >= 300)
+            {
+                ERROR__LOG("修改数据失败, 返回状态码: {}", resp.status_code);
+                return false;
+            }
+        }
+        catch(const std::exception& e)
+        {
+            ERROR__LOG("修改数据es索引失败: {}", e.what());
+            return false;
+        }
+        return true;
+    }
+private:
+    std::shared_ptr<elasticlient::Client> _client;
+    std::string _index_name;
+    std::string _index_type;
+    Json::Value _req_body;
+};
+// es删除数据
+class ESRemove
+{
+public:
+    ESRemove(const std::shared_ptr<elasticlient::Client> &client, 
+            std::string index_name, std::string index_type = "_doc")
+    :_index_name(index_name), _index_type(index_type), _client(client)
+    {}
+    bool remove(const std::string &id)
+    {
+        try
+        {
+            auto resp = _client->remove(_index_name, _index_type);
+            if(resp.status_code < 200 || resp.status_code >= 300)
+            {
+                ERROR__LOG("删除数据失败, 返回状态码: {}", resp.status_code);
+                return false;
+            }
+        }
+        catch(const std::exception& e)
+        {
+            ERROR__LOG("删除数据es索引失败: {}", e.what());
+            return false;
+        }
+        return true;
+    }
+private:
+    td::shared_ptr<elasticlient::Client> _client;
+    std::string _index_name;
+    std::string _index_type;
+};
 // ES查询数据
 class ESQuery
 {
-    
+public:
+    ESQuery(const std::shared_ptr<elasticlient::Client> &client, 
+            std::string index_name, std::string index_type = "_doc")
+    :_client(client), _index_name(index_name), _index_type(index_type)
+    {}
+private:
+    td::shared_ptr<elasticlient::Client> _client;
+    std::string _index_name;
+    std::string _index_type;
 };
