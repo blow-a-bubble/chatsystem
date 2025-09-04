@@ -8,16 +8,12 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/blow/github/ChatSystem/chatsystem/example/echo.pb.cc" "CMakeFiles/registry.dir/echo.pb.cc.o" "gcc" "CMakeFiles/registry.dir/echo.pb.cc.o.d"
-  "/home/blow/github/ChatSystem/chatsystem/example/registry.cc" "CMakeFiles/registry.dir/registry.cc.o" "gcc" "CMakeFiles/registry.dir/registry.cc.o.d"
+  "/home/blow/code/chatsystem/example/echo.pb.cc" "CMakeFiles/registry.dir/echo.pb.cc.o" "gcc" "CMakeFiles/registry.dir/echo.pb.cc.o.d"
+  "/home/blow/code/chatsystem/example/registry.cc" "CMakeFiles/registry.dir/registry.cc.o" "gcc" "CMakeFiles/registry.dir/registry.cc.o.d"
   )
 
-# Targets to which this target links which contain Fortran sources.
-set(CMAKE_Fortran_TARGET_LINKED_INFO_FILES
-  )
-
-# Targets to which this target links which contain Fortran sources.
-set(CMAKE_Fortran_TARGET_FORWARD_LINKED_INFO_FILES
+# Targets to which this target links.
+set(CMAKE_TARGET_LINKED_INFO_FILES
   )
 
 # Fortran module output directory.

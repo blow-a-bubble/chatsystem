@@ -107,6 +107,7 @@ public:
     ESInsert &append(const std::string &key, const std::string &value)
     {
         _req_body[key] = value;
+        return *this;
     }
     bool insert(const std::string &id)
     {
@@ -152,8 +153,9 @@ public:
     ESModify &append(const std::string &key, const std::string &value)
     {
         _req_body[key] = value;
+        return *this;
     }
-    bool insert(const std::string &id)
+    bool modify(const std::string &id)
     {
         std::string req;
         bool ret = serialize(_req_body, req);
@@ -197,7 +199,7 @@ public:
     {
         try
         {
-            auto resp = _client->remove(_index_name, _index_type);
+            auto resp = _client->remove(_index_name, _index_type, id);
             if(resp.status_code < 200 || resp.status_code >= 300)
             {
                 ERROR__LOG("删除数据失败, 返回状态码: {}", resp.status_code);
@@ -212,20 +214,90 @@ public:
         return true;
     }
 private:
-    td::shared_ptr<elasticlient::Client> _client;
+    std::shared_ptr<elasticlient::Client> _client;
     std::string _index_name;
     std::string _index_type;
 };
 // ES查询数据
-class ESQuery
+class ESSearch
 {
 public:
-    ESQuery(const std::shared_ptr<elasticlient::Client> &client, 
+    ESSearch(const std::shared_ptr<elasticlient::Client> &client, 
             std::string index_name, std::string index_type = "_doc")
     :_client(client), _index_name(index_name), _index_type(index_type)
     {}
+    ESSearch &append_must_not_terms(const std::string &key, const std::vector<std::string> &values)
+    {
+        Json::Value terms;
+        for(const auto &value : values)
+        {
+            terms[key].append(value);
+        }
+        Json::Value field;
+        field["terms"] = terms;
+        _must_not.append(field);
+        return *this;
+    }
+    ESSearch &append_should_match(const std::string &key, const std::string &value)
+    {
+        Json::Value match;
+        match[key] = value;
+        Json::Value field;
+        field["match"] = match;
+        _should.append(field);
+        return *this;
+    }
+
+    Json::Value search()
+    {
+        // 构造查询body
+        Json::Value condition;
+        condition["must_not"] = _must_not;
+        condition["should"] = _should;
+        Json::Value query;
+        query["bool"] = condition;
+        _req_body["query"] = query;
+        std::string req;
+        bool ret = serialize(_req_body, req);
+        if(ret == false)
+        {
+            ERROR__LOG("查询数据请求进行序列化失败");
+            return Json::Value();
+        }
+        std::string result_str;
+        try
+        {
+            auto resp = _client->search(_index_name, _index_type, req);
+            if(resp.status_code < 200 || resp.status_code >= 300)
+            {
+                ERROR__LOG("查询数据失败, 返回状态码: {}", resp.status_code);
+                return Json::Value();
+            }
+            result_str = resp.text;
+        }
+        catch(const std::exception& e)
+        {
+            ERROR__LOG("查询数据es索引失败: {}", e.what());
+            return Json::Value();
+        }
+        // 构造返回结果
+        Json::Value result;
+        ret = deserialize(result_str, result);
+        if(ret == false)
+        {
+            ERROR__LOG("查询数据请求进行反序列化失败");
+            return Json::Value();
+        }
+        return result["hits"]["hits"];
+    }
 private:
-    td::shared_ptr<elasticlient::Client> _client;
+    std::shared_ptr<elasticlient::Client> _client;
     std::string _index_name;
     std::string _index_type;
+    Json::Value _req_body;
+    Json::Value _must_not;
+    Json::Value _should;
+
 };
+
+

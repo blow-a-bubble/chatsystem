@@ -1,5 +1,3 @@
-/home/blow/github/ChatSystem/chatsystem/example/build/CMakeFiles/discovery.dir
-/home/blow/github/ChatSystem/chatsystem/example/build/CMakeFiles/registry.dir
-/home/blow/github/ChatSystem/chatsystem/example/build/CMakeFiles/es_test.dir
-/home/blow/github/ChatSystem/chatsystem/example/build/CMakeFiles/edit_cache.dir
-/home/blow/github/ChatSystem/chatsystem/example/build/CMakeFiles/rebuild_cache.dir
+/home/blow/code/chatsystem/example/build/CMakeFiles/es_test.dir
+/home/blow/code/chatsystem/example/build/CMakeFiles/edit_cache.dir
+/home/blow/code/chatsystem/example/build/CMakeFiles/rebuild_cache.dir
