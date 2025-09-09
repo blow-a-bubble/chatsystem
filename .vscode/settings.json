@@ -84,7 +84,8 @@
         "hash_set": "cpp",
         "fstream": "cpp",
         "strstream": "cpp",
-        "coroutine": "cpp"
+        "coroutine": "cpp",
+        "regex": "cpp"
     },
     "Codegeex.GenerationPreference": "line by line"
 }
