@@ -1,0 +1,3 @@
+/home/blow/work/github/chatsystem/server/example/build/CMakeFiles/dms_test.dir
+/home/blow/work/github/chatsystem/server/example/build/CMakeFiles/edit_cache.dir
+/home/blow/work/github/chatsystem/server/example/build/CMakeFiles/rebuild_cache.dir

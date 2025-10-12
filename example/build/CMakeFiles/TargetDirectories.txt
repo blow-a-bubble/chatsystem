@@ -1,3 +1,0 @@
-/home/blow/code/chatsystem/example/build/CMakeFiles/es_test.dir
-/home/blow/code/chatsystem/example/build/CMakeFiles/edit_cache.dir
-/home/blow/code/chatsystem/example/build/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,2 @@
+# Hashes of file build rules.
+de2cc76b076542fa744f25ac26b4a901 speech.pb.cc

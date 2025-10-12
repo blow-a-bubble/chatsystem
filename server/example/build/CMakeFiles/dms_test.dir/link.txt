@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -rdynamic CMakeFiles/dms_test.dir/dms_test.cc.o -o dms_test  -lgflags -lfmt -lspdlog -lalibabacloud-sdk-core 

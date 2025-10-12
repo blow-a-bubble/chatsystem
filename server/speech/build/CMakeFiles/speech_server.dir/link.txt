@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -rdynamic CMakeFiles/speech_server.dir/speech.pb.cc.o CMakeFiles/speech_server.dir/src/speech_server.cpp.o -o speech_server  /usr/lib/x86_64-linux-gnu/libjsoncpp.so.1.8.4 -lcurl -lbrpc -lcrypto -lgflags -lfmt -lspdlog -lprotobuf -letcd-cpp-api -lcpprest -lleveldb -lssl 

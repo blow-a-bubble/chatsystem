@@ -1,0 +1,1 @@
+/usr/bin/c++ -g -rdynamic CMakeFiles/odb_test.dir/student-odb.cxx.o CMakeFiles/odb_test.dir/main.cpp.o -o odb_test  -lodb -lodb-mysql -lodb-boost 

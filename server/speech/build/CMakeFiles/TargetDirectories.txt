@@ -1,0 +1,4 @@
+/home/blow/work/github/chatsystem/server/speech/build/CMakeFiles/speech_server.dir
+/home/blow/work/github/chatsystem/server/speech/build/CMakeFiles/speech_client.dir
+/home/blow/work/github/chatsystem/server/speech/build/CMakeFiles/edit_cache.dir
+/home/blow/work/github/chatsystem/server/speech/build/CMakeFiles/rebuild_cache.dir

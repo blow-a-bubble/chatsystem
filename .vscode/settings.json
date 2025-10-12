@@ -85,7 +85,11 @@
         "fstream": "cpp",
         "strstream": "cpp",
         "coroutine": "cpp",
-        "regex": "cpp"
+        "regex": "cpp",
+        "ranges": "cpp",
+        "cfenv": "cpp",
+        "*.txx": "cpp"
     },
-    "Codegeex.GenerationPreference": "line by line"
+    "Codegeex.GenerationPreference": "line by line",
+    "cmake.sourceDirectory": "/home/blow/work/github/chatsystem/example"
 }
